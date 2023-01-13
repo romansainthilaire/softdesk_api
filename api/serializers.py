@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from api.models import User
+from api.models import User, Project
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -19,3 +19,11 @@ class UserSerializer(serializers.ModelSerializer):
         user.set_password(validated_data["password"])
         user.save()
         return user
+
+
+class ProjectSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Project
+        fields = ["id", "author", "title", "description", "type"]
+        read_only_fields = ["author"]
