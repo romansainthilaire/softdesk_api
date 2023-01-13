@@ -5,7 +5,7 @@ from api.models import User, Project
 
 class UserAdmin(admin.ModelAdmin):
 
-    list_display = ["username", "first_name", "last_name", "email", "id"]
+    list_display = ["email", "first_name", "last_name"]
 
 
 class ProjectAdmin(admin.ModelAdmin):
