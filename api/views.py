@@ -16,10 +16,12 @@ class SignupView(generics.CreateAPIView):
 class ProjectListCreate(generics.ListCreateAPIView):
 
     serializer_class = ProjectSerializer
-    queryset = Project.objects.all()
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+
+    def get_queryset(self):
+        return Project.objects.filter(author=self.request.user)
 
 
 class ProjectRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
@@ -28,7 +30,6 @@ class ProjectRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         project = get_object_or_404(Project, pk=self.kwargs["pk"])
-        if self.request.user == project.author:
-            return Project.objects.filter(author=self.request.user)
-        else:
+        if self.request.user != project.author:
             raise PermissionDenied()
+        return Project.objects.filter(author=self.request.user)

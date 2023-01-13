@@ -23,9 +23,6 @@ class UserSerializer(serializers.ModelSerializer):
 
 class ProjectSerializer(serializers.ModelSerializer):
 
-    author_id = serializers.IntegerField(source="author.id", read_only=True)
-    author_username = serializers.CharField(source="author.username", read_only=True)
-
     class Meta:
         model = Project
-        fields = ["id", "author_id", "author_username", "title", "description", "type"]
+        fields = ["id", "author_id", "title", "description", "type"]
