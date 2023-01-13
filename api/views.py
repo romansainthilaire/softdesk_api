@@ -1,3 +1,6 @@
+from django.core.exceptions import PermissionDenied
+from django.shortcuts import get_object_or_404
+
 from rest_framework import generics
 
 from api.models import User, Project
@@ -17,3 +20,15 @@ class ProjectListCreate(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+
+
+class ProjectRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+
+    serializer_class = ProjectSerializer
+
+    def get_queryset(self):
+        project = get_object_or_404(Project, pk=self.kwargs["pk"])
+        if self.request.user == project.author:
+            return Project.objects.filter(author=self.request.user)
+        else:
+            raise PermissionDenied()
