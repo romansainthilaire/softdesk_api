@@ -2,6 +2,7 @@ from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 
 from rest_framework import generics
+from rest_framework.permissions import AllowAny
 
 from api.models import User, Project
 from api.serializers import UserSerializer, ProjectSerializer
@@ -11,6 +12,7 @@ class SignupView(generics.CreateAPIView):
 
     serializer_class = UserSerializer
     queryset = User.objects.all()
+    permission_classes = [AllowAny]
 
 
 class ProjectListCreate(generics.ListCreateAPIView):
