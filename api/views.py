@@ -4,6 +4,9 @@ from django.db import IntegrityError
 from rest_framework import generics
 from rest_framework.permissions import AllowAny
 from rest_framework.exceptions import PermissionDenied, ParseError
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
 
 from api.models import User, Project, Contributor
 from api.serializers import (
@@ -63,3 +66,20 @@ class ContributorListCreate(generics.ListCreateAPIView):
         if self.request.user != project.author:
             raise PermissionDenied("Access denied. You are not the author of this project.")
         return Contributor.objects.filter(project=project)
+
+
+@api_view(["DELETE"])
+def delete_contributor(request, project_id, user_id):
+
+    project = get_object_or_404(Project, pk=project_id)
+    if request.user != project.author:
+        raise PermissionDenied("Access denied. You are not the author of this project.")
+
+    user = get_object_or_404(User, pk=user_id)
+    if request.user == user:
+        raise ParseError("Operation canceled. You cannot remove the author from the contributors.")
+
+    if request.method == "DELETE":
+        contributor = get_object_or_404(Contributor, user=user, project=project)
+        contributor.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
