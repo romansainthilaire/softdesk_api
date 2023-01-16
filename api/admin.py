@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from api.models import User, Project
+from api.models import User, Project, Contributor
 
 
 class UserAdmin(admin.ModelAdmin):
@@ -15,3 +15,4 @@ class ProjectAdmin(admin.ModelAdmin):
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Project, ProjectAdmin)
+admin.site.register(Contributor)

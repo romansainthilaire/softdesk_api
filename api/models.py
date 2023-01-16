@@ -44,7 +44,7 @@ class User(AbstractBaseUser):
     REQUIRED_FIELDS = ["first_name", "last_name"]
 
     def __str__(self):
-        return self.email
+        return f"{self.first_name} {self.last_name}"
 
     def has_perm(self, perm, obj=None):
         return True
@@ -66,3 +66,15 @@ class Project(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Contributor(models.Model):
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ["user", "project"]
+
+    def __str__(self):
+        return f"{self.user} → {self.project.title}"

@@ -1,11 +1,12 @@
-from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
+from django.db import IntegrityError
 
 from rest_framework import generics
 from rest_framework.permissions import AllowAny
+from rest_framework.exceptions import PermissionDenied, ParseError
 
-from api.models import User, Project
-from api.serializers import UserSerializer, ProjectSerializer
+from api.models import User, Project, Contributor
+from api.serializers import UserSerializer, ProjectSerializer, ContributorSerializer
 
 
 class SignupView(generics.CreateAPIView):
@@ -33,5 +34,25 @@ class ProjectRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         project = get_object_or_404(Project, pk=self.kwargs["pk"])
         if self.request.user != project.author:
-            raise PermissionDenied()
+            raise PermissionDenied("Access denied. You are not the author of this project.")
         return Project.objects.filter(author=self.request.user)
+
+
+class ContributorListCreate(generics.ListCreateAPIView):
+
+    serializer_class = ContributorSerializer
+
+    def perform_create(self, serializer):
+        project = get_object_or_404(Project, pk=self.kwargs["pk"])
+        if self.request.user != project.author:
+            raise PermissionDenied("Access denied. You are not the author of this project.")
+        try:
+            serializer.save(project=project)
+        except IntegrityError:
+            raise ParseError("Operation canceled. This user is already a contributor to this project.")
+
+    def get_queryset(self):
+        project = get_object_or_404(Project, pk=self.kwargs["pk"])
+        if self.request.user != project.author:
+            raise PermissionDenied("Access denied. You are not the author of this project.")
+        return Contributor.objects.filter(project=project)
