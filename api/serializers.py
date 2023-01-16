@@ -37,5 +37,4 @@ class ContributorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Contributor
-        fields = ["user", "id", "first_name", "last_name", "email"]
-        extra_kwargs = {"user": {"write_only": True}}
+        fields = ["id", "first_name", "last_name", "email"]

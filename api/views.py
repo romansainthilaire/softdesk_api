@@ -48,38 +48,40 @@ class ProjectRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         return Project.objects.filter(author=self.request.user)
 
 
-class ContributorListCreate(generics.ListCreateAPIView):
+class ContributorList(generics.ListAPIView):
 
     serializer_class = ContributorSerializer
 
-    def perform_create(self, serializer):
-        project = get_object_or_404(Project, pk=self.kwargs["pk"])
-        if self.request.user != project.author:
-            raise PermissionDenied("Access denied. You are not the author of this project.")
-        try:
-            serializer.save(project=project)
-        except IntegrityError:
-            raise ParseError("Operation canceled. This user is already a contributor to this project.")
-
     def get_queryset(self):
         project = get_object_or_404(Project, pk=self.kwargs["pk"])
-        if self.request.user != project.author:
-            raise PermissionDenied("Access denied. You are not the author of this project.")
+        user_contributors = Contributor.objects.filter(user=self.request.user)
+        if len(Project.objects.filter(contributors__in=user_contributors)) == 0:
+            raise PermissionDenied("Access denied. You do not contribute to this project.")
         return Contributor.objects.filter(project=project)
 
 
-@api_view(["DELETE"])
-def delete_contributor(request, project_id, user_id):
+@api_view(["POST", "DELETE"])
+def contributor_create_destroy(request, project_id, user_id):
 
     project = get_object_or_404(Project, pk=project_id)
     if request.user != project.author:
         raise PermissionDenied("Access denied. You are not the author of this project.")
 
     user = get_object_or_404(User, pk=user_id)
-    if request.user == user:
-        raise ParseError("Operation canceled. You cannot remove the author from the contributors.")
+
+    if request.method == "POST":
+        contributor = Contributor()
+        contributor.user = user
+        contributor.project = project
+        try:
+            contributor.save()
+        except IntegrityError:
+            raise ParseError("Operation canceled. This user already contributes to this project.")
+        return Response(status=status.HTTP_200_OK)
 
     if request.method == "DELETE":
+        if request.user == user:
+            raise ParseError("Operation canceled. You cannot remove the author from the contributors.")
         contributor = get_object_or_404(Contributor, user=user, project=project)
         contributor.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

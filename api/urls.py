@@ -7,6 +7,6 @@ urlpatterns = [
     path("signup/", views.SignupView.as_view()),
     path("projects/", views.ProjectListCreate.as_view()),
     path("projects/<int:pk>/", views.ProjectRetrieveUpdateDestroy.as_view()),
-    path("projects/<int:pk>/users/", views.ContributorListCreate.as_view()),
-    path("projects/<int:project_id>/users/<int:user_id>/", views.delete_contributor),
+    path("projects/<int:pk>/users/", views.ContributorList.as_view()),
+    path("projects/<int:project_id>/users/<int:user_id>/", views.contributor_create_destroy),
 ]
