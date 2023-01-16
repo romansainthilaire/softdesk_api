@@ -21,7 +21,9 @@ class ProjectListCreate(generics.ListCreateAPIView):
     serializer_class = ProjectSerializer
 
     def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
+        project = serializer.save(author=self.request.user)
+        contributor = Contributor(user=self.request.user, project=project)
+        contributor.save()
 
     def get_queryset(self):
         return Project.objects.filter(author=self.request.user)
