@@ -6,7 +6,11 @@ from rest_framework.permissions import AllowAny
 from rest_framework.exceptions import PermissionDenied, ParseError
 
 from api.models import User, Project, Contributor
-from api.serializers import UserSerializer, ProjectSerializer, ContributorSerializer
+from api.serializers import (
+    UserSerializer,
+    ProjectSerializer,
+    ContributorSerializer,
+    )
 
 
 class SignupView(generics.CreateAPIView):
