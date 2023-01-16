@@ -71,7 +71,7 @@ class Project(models.Model):
 class Contributor(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="contributors")
 
     class Meta:
         unique_together = ["user", "project"]

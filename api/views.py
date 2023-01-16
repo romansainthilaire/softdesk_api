@@ -26,7 +26,8 @@ class ProjectListCreate(generics.ListCreateAPIView):
         contributor.save()
 
     def get_queryset(self):
-        return Project.objects.filter(author=self.request.user)
+        user_contributors = Contributor.objects.filter(user=self.request.user)
+        return Project.objects.filter(contributors__in=user_contributors)
 
 
 class ProjectRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
