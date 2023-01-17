@@ -62,7 +62,7 @@ class Project(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     description = models.CharField(max_length=1000)
-    type = models.CharField(max_length=50)
+    type = models.CharField(max_length=50, default="BACK-END")
 
     def __str__(self):
         return self.title
@@ -78,3 +78,19 @@ class Contributor(models.Model):
 
     def __str__(self):
         return f"{self.user} → {self.project.title}"
+
+
+class Issue(models.Model):
+
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="issues")
+    user_in_charge = models.ForeignKey(User, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="issues")
+    title = models.CharField(max_length=200)
+    description = models.CharField(max_length=1000)
+    tag = models.CharField(max_length=50, default="BUG")
+    priority = models.CharField(max_length=50, default="FAIBLE")
+    status = models.CharField(max_length=50, default="À FAIRE")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.title} - {self.status}"
