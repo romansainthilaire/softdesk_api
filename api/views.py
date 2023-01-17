@@ -18,7 +18,7 @@ from api.serializers import (
     )
 
 
-class SignupView(generics.CreateAPIView):
+class SignupView(generics.ListCreateAPIView):
 
     serializer_class = UserSerializer
     queryset = User.objects.all()
