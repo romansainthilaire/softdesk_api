@@ -77,7 +77,7 @@ def contributor_create_destroy(request, project_id, user_id):
             contributor.save()
         except IntegrityError:
             raise ParseError("Operation canceled. This user already contributes to this project.")
-        return Response(status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_201_CREATED)
 
     if request.method == "DELETE":
         if request.user == user:
