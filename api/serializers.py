@@ -40,9 +40,7 @@ class ContributorSerializer(serializers.ModelSerializer):
         fields = ["id", "first_name", "last_name", "email"]
 
 
-class IssueSerializer(serializers.ModelSerializer):
-
-    user_in_charge_id = serializers.PrimaryKeyRelatedField(source="user_in_charge", queryset=User.objects.all())
+class IssueListCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Issue
@@ -59,3 +57,8 @@ class IssueSerializer(serializers.ModelSerializer):
             "created_at"
             ]
         read_only_fields = ["created_at"]
+
+
+class IssueRetrieveUpdateDestroySerializer(IssueListCreateSerializer):
+
+    user_in_charge_id = serializers.PrimaryKeyRelatedField(source="user_in_charge", queryset=User.objects.all())

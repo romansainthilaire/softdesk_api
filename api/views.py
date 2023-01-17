@@ -9,7 +9,12 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from api.models import User, Project, Contributor, Issue
-from api.serializers import UserSerializer, ProjectSerializer, ContributorSerializer, IssueSerializer
+from api.serializers import (
+    UserSerializer,
+    ProjectSerializer,
+    ContributorSerializer,
+    IssueListCreateSerializer, IssueRetrieveUpdateDestroySerializer
+    )
 
 
 class SignupView(generics.CreateAPIView):
@@ -86,7 +91,7 @@ def contributor_create_destroy(request, project_id, user_id):
 
 class IssueListCreate(generics.ListCreateAPIView):
 
-    serializer_class = IssueSerializer
+    serializer_class = IssueListCreateSerializer
 
     def perform_create(self, serializer):
         project = get_object_or_404(Project, pk=self.kwargs["project_id"])
@@ -102,7 +107,7 @@ class IssueListCreate(generics.ListCreateAPIView):
 
 class IssueRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 
-    serializer_class = IssueSerializer
+    serializer_class = IssueRetrieveUpdateDestroySerializer
     lookup_url_kwarg = "issue_id"
 
     def perform_update(self, serializer):
