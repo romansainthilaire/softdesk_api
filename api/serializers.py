@@ -42,6 +42,8 @@ class ContributorSerializer(serializers.ModelSerializer):
 
 class IssueSerializer(serializers.ModelSerializer):
 
+    user_in_charge_id = serializers.PrimaryKeyRelatedField(source="user_in_charge", queryset=User.objects.all())
+
     class Meta:
         model = Issue
         fields = [
