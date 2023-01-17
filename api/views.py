@@ -166,3 +166,28 @@ class CommentListCreate(generics.ListCreateAPIView):
             raise PermissionDenied("Accès refusé. Vous n'êtes pas un contributeur de ce projet.")
         issue = get_object_or_404(Issue, pk=self.kwargs["issue_id"])
         return Comment.objects.filter(issue=issue)
+
+
+class CommentRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+
+    serializer_class = CommentSerializer
+    lookup_url_kwarg = "comment_id"
+
+    def perform_update(self, serializer):
+        comment = get_object_or_404(Comment, pk=self.kwargs["comment_id"])
+        if self.request.user != comment.author:
+            raise PermissionDenied("Opération annulée. Vous n'êtes pas l'auteur de ce commentaire.")
+        if serializer.is_valid():
+            serializer.save()
+
+    def perform_destroy(self, instance):
+        if self.request.user != instance.author:
+            raise PermissionDenied("Opération annulée. Vous n'êtes pas l'auteur de ce commentaire.")
+        instance.delete()
+
+    def get_queryset(self):
+        project = get_object_or_404(Project, pk=self.kwargs["project_id"])
+        user_contributors = Contributor.objects.filter(user=self.request.user)
+        if len(Project.objects.filter(pk=project.pk, contributors__in=user_contributors)) == 0:
+            raise PermissionDenied("Accès refusé. Vous n'êtes pas un contributeur de ce projet.")
+        return Comment.objects.filter(pk=self.kwargs["comment_id"])
