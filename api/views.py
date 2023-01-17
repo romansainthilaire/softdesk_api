@@ -112,21 +112,31 @@ class IssueRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     lookup_url_kwarg = "issue_id"
 
     def perform_update(self, serializer):
+        issue = get_object_or_404(Issue, pk=self.kwargs["issue_id"])
+        if self.request.user != issue.author:
+            raise PermissionDenied("Opération annulée. Vous n'êtes pas l'auteur de ce problème.")
         project = get_object_or_404(Project, pk=self.kwargs["project_id"])
         if serializer.is_valid():
             user_in_charge = serializer.validated_data["user_in_charge"]
             user_in_charge_contributors = Contributor.objects.filter(user=user_in_charge)
             if len(Project.objects.filter(pk=project.pk, contributors__in=user_in_charge_contributors)) == 0:
                 raise PermissionDenied(
-                    "Modification annulée. Vous ne pouvez pas assigner un problème à un utilisateur " +
+                    "Opération annulée. Vous ne pouvez pas assigner un problème à un utilisateur " +
                     "qui n'est pas un contributeur de ce projet.")
             serializer.save()
 
-    def get_queryset(self):
+    def perform_destroy(self, instance):
         issue = get_object_or_404(Issue, pk=self.kwargs["issue_id"])
         if self.request.user != issue.author:
-            raise PermissionDenied("Accès refusé. Vous n'êtes pas l'auteur de ce problème.")
-        return Issue.objects.filter(author=self.request.user)
+            raise PermissionDenied("Opération annulée. Vous n'êtes pas l'auteur de ce problème.")
+        instance.delete()
+
+    def get_queryset(self):
+        project = get_object_or_404(Project, pk=self.kwargs["project_id"])
+        user_contributors = Contributor.objects.filter(user=self.request.user)
+        if len(Project.objects.filter(pk=project.pk, contributors__in=user_contributors)) == 0:
+            raise PermissionDenied("Accès refusé. Vous n'êtes pas un contributeur de ce projet.")
+        return Issue.objects.filter(project=project)
 
 
 class CommentListCreate(generics.ListCreateAPIView):
