@@ -44,11 +44,24 @@ class ProjectRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ProjectSerializer
     lookup_url_kwarg = "project_id"
 
-    def get_queryset(self):
+    def perform_update(self, serializer):
         project = get_object_or_404(Project, pk=self.kwargs["project_id"])
         if self.request.user != project.author:
-            raise PermissionDenied("Accès refusé. Vous n'êtes pas l'auteur de ce projet.")
-        return Project.objects.filter(author=self.request.user)
+            raise PermissionDenied("Opération annulée. Vous n'êtes pas l'auteur de ce projet.")
+        if serializer.is_valid():
+            serializer.save()
+
+    def perform_destroy(self, instance):
+        if self.request.user != instance.author:
+            raise PermissionDenied("Opération annulée. Vous n'êtes pas l'auteur de ce projet.")
+        instance.delete()
+
+    def get_queryset(self):
+        project = get_object_or_404(Project, pk=self.kwargs["project_id"])
+        user_contributors = Contributor.objects.filter(user=self.request.user)
+        if len(Project.objects.filter(pk=project.pk, contributors__in=user_contributors)) == 0:
+            raise PermissionDenied("Accès refusé. Vous n'êtes pas un contributeur de ce projet.")
+        return Project.objects.all()
 
 
 class ContributorList(generics.ListAPIView):
@@ -126,8 +139,7 @@ class IssueRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
             serializer.save()
 
     def perform_destroy(self, instance):
-        issue = get_object_or_404(Issue, pk=self.kwargs["issue_id"])
-        if self.request.user != issue.author:
+        if self.request.user != instance.author:
             raise PermissionDenied("Opération annulée. Vous n'êtes pas l'auteur de ce problème.")
         instance.delete()
 
