@@ -8,12 +8,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from api.models import User, Project, Contributor
-from api.serializers import (
-    UserSerializer,
-    ProjectSerializer,
-    ContributorSerializer,
-    )
+from api.models import User, Project, Contributor, Issue
+from api.serializers import UserSerializer, ProjectSerializer, ContributorSerializer, IssueSerializer
 
 
 class SignupView(generics.CreateAPIView):
@@ -40,11 +36,12 @@ class ProjectListCreate(generics.ListCreateAPIView):
 class ProjectRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 
     serializer_class = ProjectSerializer
+    lookup_url_kwarg = "project_id"
 
     def get_queryset(self):
-        project = get_object_or_404(Project, pk=self.kwargs["pk"])
+        project = get_object_or_404(Project, pk=self.kwargs["project_id"])
         if self.request.user != project.author:
-            raise PermissionDenied("Access denied. You are not the author of this project.")
+            raise PermissionDenied("Accès refusé. Vous n'êtes pas l'auteur de ce projet.")
         return Project.objects.filter(author=self.request.user)
 
 
@@ -53,10 +50,10 @@ class ContributorList(generics.ListAPIView):
     serializer_class = ContributorSerializer
 
     def get_queryset(self):
-        project = get_object_or_404(Project, pk=self.kwargs["pk"])
+        project = get_object_or_404(Project, pk=self.kwargs["project_id"])
         user_contributors = Contributor.objects.filter(user=self.request.user)
-        if len(Project.objects.filter(contributors__in=user_contributors)) == 0:
-            raise PermissionDenied("Access denied. You do not contribute to this project.")
+        if len(Project.objects.filter(pk=project.pk, contributors__in=user_contributors)) == 0:
+            raise PermissionDenied("Accès refusé. Vous n'êtes pas un contributeur de ce projet.")
         return Contributor.objects.filter(project=project)
 
 
@@ -65,7 +62,7 @@ def contributor_create_destroy(request, project_id, user_id):
 
     project = get_object_or_404(Project, pk=project_id)
     if request.user != project.author:
-        raise PermissionDenied("Access denied. You are not the author of this project.")
+        raise PermissionDenied("Accès refusé. Vous n'êtes pas l'auteur de ce projet.")
 
     user = get_object_or_404(User, pk=user_id)
 
@@ -76,12 +73,28 @@ def contributor_create_destroy(request, project_id, user_id):
         try:
             contributor.save()
         except IntegrityError:
-            raise ParseError("Operation canceled. This user already contributes to this project.")
+            raise ParseError("Opération annulée. Cet utilisateur est déjà un contributeur de ce projet.")
         return Response(status=status.HTTP_201_CREATED)
 
     if request.method == "DELETE":
         if request.user == user:
-            raise ParseError("Operation canceled. You cannot remove the author from the contributors.")
+            raise ParseError("Opération annulée. Il est impossible de retirer l'auteur de la liste des contributeurs.")
         contributor = get_object_or_404(Contributor, user=user, project=project)
         contributor.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class IssueListCreate(generics.ListCreateAPIView):
+
+    serializer_class = IssueSerializer
+
+    def perform_create(self, serializer):
+        project = get_object_or_404(Project, pk=self.kwargs["project_id"])
+        serializer.save(author=self.request.user, user_in_charge=self.request.user, project=project)
+
+    def get_queryset(self):
+        project = get_object_or_404(Project, pk=self.kwargs["project_id"])
+        user_contributors = Contributor.objects.filter(user=self.request.user)
+        if len(Project.objects.filter(pk=project.pk, contributors__in=user_contributors)) == 0:
+            raise PermissionDenied("Accès refusé. Vous n'êtes pas un contributeur de ce projet.")
+        return Issue.objects.filter(project=project)

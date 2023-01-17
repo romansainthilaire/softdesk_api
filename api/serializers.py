@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from api.models import User, Project, Contributor
+from api.models import User, Project, Contributor, Issue
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -38,3 +38,22 @@ class ContributorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contributor
         fields = ["id", "first_name", "last_name", "email"]
+
+
+class IssueSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Issue
+        fields = [
+            "id",
+            "author_id",
+            "user_in_charge_id",
+            "project_id",
+            "title",
+            "description",
+            "tag",
+            "priority",
+            "status",
+            "created_at"
+            ]
+        read_only_fields = ["created_at"]
