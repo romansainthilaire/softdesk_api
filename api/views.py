@@ -61,7 +61,7 @@ class ProjectRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         check_project_contributor_access(self.kwargs["project_id"], self.request.user)
-        return Project.objects.filter(self.kwargs["project_id"])
+        return Project.objects.filter(pk=self.kwargs["project_id"])
 
 
 class ContributorList(generics.ListAPIView):
