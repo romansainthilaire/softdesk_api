@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from api.models import User, Project, Contributor, Issue
+from api.models import User, Project, Contributor, Issue, Comment
 
 
 class UserAdmin(admin.ModelAdmin):
@@ -20,7 +20,14 @@ class IssueAdmin(admin.ModelAdmin):
     list_filter = ["author"]
 
 
+class CommentAdmin(admin.ModelAdmin):
+
+    list_display = ["description", "issue", "author", "created_at"]
+    list_filter = ["author", "issue"]
+
+
 admin.site.register(User, UserAdmin)
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(Contributor)
 admin.site.register(Issue, IssueAdmin)
+admin.site.register(Comment, CommentAdmin)
