@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from api.models import User, Project, Contributor, Issue
+from api.models import User, Project, Contributor, Issue, Comment
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -62,3 +62,10 @@ class IssueListCreateSerializer(serializers.ModelSerializer):
 class IssueRetrieveUpdateDestroySerializer(IssueListCreateSerializer):
 
     user_in_charge_id = serializers.PrimaryKeyRelatedField(source="user_in_charge", queryset=User.objects.all())
+
+
+class CommentSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Comment
+        fields = ["id", "author_id", "issue_id", "description", "created_at"]
