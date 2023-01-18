@@ -139,6 +139,6 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
-    "REFRESH_TOKEN_LIFETIME": timedelta(weeks=1),
+    "ACCESS_TOKEN_LIFETIME": timedelta(weeks=100),  # lifetime shouldn't be that long → only for testing purpose
+    "REFRESH_TOKEN_LIFETIME": timedelta(weeks=100),  # lifetime shouldn't be that long → only for testing purpose
 }
