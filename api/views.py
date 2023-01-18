@@ -78,6 +78,7 @@ def contributor_create_destroy(request, project_id, user_id):
 
     project = get_object_or_404(Project, pk=project_id)
     user = get_object_or_404(User, pk=user_id)
+
     check_project_author_access(project.pk, request.user)
 
     if request.method == "POST":
@@ -134,7 +135,7 @@ class IssueRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         check_project_contributor_access(self.kwargs["project_id"], self.request.user)
-        return Issue.objects.filter(project__pk=self.kwargs["project_id"])
+        return Issue.objects.filter(pk=self.kwargs["issue_id"])
 
 
 class CommentListCreate(generics.ListCreateAPIView):
@@ -147,8 +148,7 @@ class CommentListCreate(generics.ListCreateAPIView):
 
     def get_queryset(self):
         check_project_contributor_access(self.kwargs["project_id"], self.request.user)
-        issue = get_object_or_404(Issue, pk=self.kwargs["issue_id"])
-        return Comment.objects.filter(issue=issue)
+        return Comment.objects.filter(issue__pk=self.kwargs["issue_id"])
 
 
 class CommentRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
