@@ -14,7 +14,7 @@ Notes :
 
 - L'utilisation de l'API nécessite la création d'un compte et l'authentification via JWT (JSON Web Token).
 
-- Les problèmes et commentaires sont accessibles uniquement aux contributeurs du projet. L'auteur du projet fait nécessairement partie des contributeurs.
+- L'utilisateur peut accéder uniquement aux projets auxquels il contribut. De même, les problèmes et commentaires sont accessibles uniquement aux contributeurs du projet. Par ailleurs, l'auteur du projet fait obligatoirement partie des contributeurs.
 
 - Seul l'auteur d'un projet, problème ou commentaire peut modifier ou supprimer ce dernier.
 
@@ -45,3 +45,8 @@ Notes :
 → POST **token/refresh/**
 - Données à renseigner (Body) :
     - refresh : *token de rafraichissement*
+
+### Récupération des projets
+→ GET **projects/**
+- Données à renseigner (Headers) :
+    - Authorization : Bearer *token d'accès*
