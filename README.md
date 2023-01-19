@@ -58,7 +58,7 @@ Les utilisateurs peuvent créer des projets et y ajouter des contributeurs. Chaq
 - Body :
     - title : *titre du projet*
     - description : *description du projet*
-    - type : *nature du projet (ex: BACK-END)*
+    - type : *nature du projet (ex : BACK-END)*
 
 ### Récupération d'un projet
 → GET **projects/<project_id>/**
@@ -72,7 +72,7 @@ Les utilisateurs peuvent créer des projets et y ajouter des contributeurs. Chaq
 - Body :
     - title : *titre du projet*
     - description : *description du projet*
-    - type : *nature du projet (ex: BACK-END)*
+    - type : *nature du projet (ex : BACK-END)*
 
 ### Suppression d'un projet
 → DELETE **projects/<project_id>/**
@@ -98,3 +98,14 @@ Les utilisateurs peuvent créer des projets et y ajouter des contributeurs. Chaq
 → GET **projects/<project_id>/issues/**
 - Headers :
     - Authorization : Bearer *token d'accès*
+
+### Ajout d'un problème à un projet
+→ POST **projects/<project_id>/issues/**
+- Headers :
+    - Authorization : Bearer *token d'accès*
+- Body :
+    - title : *titre du projet*
+    - description : *description du projet*
+    - tag : *balise (ex : BUG)*
+    - priority : *priorité (ex : ÉLEVÉE)*
+    - status : *statut (ex : EN COURS)*
