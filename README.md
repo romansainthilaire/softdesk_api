@@ -93,3 +93,8 @@ Les utilisateurs peuvent créer des projets et y ajouter des contributeurs. Chaq
 → DELETE **projects/<project_id>/users/<user_id>/**
 - Headers :
     - Authorization : Bearer *token d'accès*
+
+### Récupération des problèmes d'un projet
+→ GET **projects/<project_id>/issues/**
+- Headers :
+    - Authorization : Bearer *token d'accès*
