@@ -136,3 +136,10 @@ Les utilisateurs peuvent créer des projets et y ajouter des contributeurs. Chaq
 → GET **projects/<project_id>/issues/<issue_id>/comments/**
 - Headers :
     - Authorization : Bearer *token d'accès*
+
+### Ajout d'un commentaire à un problème
+→ POST **projects/<project_id>/issues/<issue_id>/comments/**
+- Headers :
+    - Authorization : Bearer *token d'accès*
+- Body :
+    - description : *commentaire*
