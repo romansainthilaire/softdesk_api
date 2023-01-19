@@ -35,7 +35,7 @@ Les utilisateurs peuvent créer des projets et y ajouter des contributeurs. Chaq
     - email : *adresse e-mail*
     - password : *mot de passe*
 
-### Récupération d'un couple token d'accès / token de rafraichissement
+### Récupération d'une paire de tokens : token d'accès et token de rafraichissement
 → POST **token/**
 - Body :
     - email : *adresse e-mail*
