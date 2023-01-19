@@ -155,3 +155,8 @@ Les utilisateurs peuvent créer des projets et y ajouter des contributeurs. Chaq
     - Authorization : Bearer *token d'accès*
 - Body :
     - description : *commentaire*
+
+### Suppression d'un commentaire
+→ DELETE **projects/<project_id>/issues/<issue_id>/comments/<comment_id>/**
+- Headers :
+    - Authorization : Bearer *token d'accès*
