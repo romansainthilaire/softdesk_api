@@ -120,7 +120,7 @@ Les utilisateurs peuvent créer des projets et y ajouter des contributeurs. Chaq
 - Headers :
     - Authorization : Bearer *token d'accès*
 - Body :
-    - user_in_charge_id : *identifiant du responssable du problème*
+    - user_in_charge_id : *identifiant du responsable du problème*
     - title : *titre du problème*
     - description : *description du problème*
     - tag : *balise (ex : BUG)*
