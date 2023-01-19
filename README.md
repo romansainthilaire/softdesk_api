@@ -114,3 +114,15 @@ Les utilisateurs peuvent créer des projets et y ajouter des contributeurs. Chaq
 → GET **projects/<project_id>/issues/<issue_id>/**
 - Headers :
     - Authorization : Bearer *token d'accès*
+
+### Modification d'un problème
+→ PUT **projects/<project_id>/issues/<issue_id>/**
+- Headers :
+    - Authorization : Bearer *token d'accès*
+- Body :
+    - user_in_charge_id : *identifiant du responssable du problème*
+    - title : *titre du problème*
+    - description : *description du problème*
+    - tag : *balise (ex : BUG)*
+    - priority : *priorité (ex : ÉLEVÉE)*
+    - status : *statut (ex : EN COURS)*
