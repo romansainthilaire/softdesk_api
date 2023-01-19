@@ -73,3 +73,8 @@ Les utilisateurs peuvent créer des projets et y ajouter des contributeurs. Chaq
     - title : *titre du projet*
     - description : *description du projet*
     - type : *nature du projet (ex: BACK-END)*
+
+### Suppression d'un projet
+→ DELETE **projects/<project_id>/**
+- Headers :
+    - Authorization : Bearer *token d'accès*
