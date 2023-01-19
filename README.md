@@ -104,8 +104,8 @@ Les utilisateurs peuvent créer des projets et y ajouter des contributeurs. Chaq
 - Headers :
     - Authorization : Bearer *token d'accès*
 - Body :
-    - title : *titre du projet*
-    - description : *description du projet*
+    - title : *titre du problème*
+    - description : *description du problème*
     - tag : *balise (ex : BUG)*
     - priority : *priorité (ex : ÉLEVÉE)*
     - status : *statut (ex : EN COURS)*
