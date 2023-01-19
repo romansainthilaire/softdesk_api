@@ -61,7 +61,6 @@ Les utilisateurs peuvent créer des projets et y ajouter des contributeurs. Chaq
     - type : *nature du projet (ex: BACK-END)*
 
 ### Récupération d'un projet
-→ GET **projects/<int:project_id>/**
+→ GET **projects/<project_id>/**
 - Headers :
     - Authorization : Bearer *token d'accès*
-
