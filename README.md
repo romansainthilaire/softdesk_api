@@ -145,6 +145,6 @@ Les utilisateurs peuvent créer des projets et y ajouter des contributeurs. Chaq
     - description : *commentaire*
 
 ### Récupération d'un commentaire
-→ GET **projects/<project_id>/issues/<issue_id>/comments/<comment_id>**
+→ GET **projects/<project_id>/issues/<issue_id>/comments/<comment_id>/**
 - Headers :
     - Authorization : Bearer *token d'accès*
