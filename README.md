@@ -50,3 +50,12 @@ Les utilisateurs peuvent créer des projets et y ajouter des contributeurs. Chaq
 → GET **projects/**
 - Headers :
     - Authorization : Bearer *token d'accès*
+
+### Création d'un projet
+→ POST **projects/**
+- Headers :
+    - Authorization : Bearer *token d'accès*
+- Body :
+    - title : *titre du projet*
+    - description : *description du projet*
+    - type : *nature du projet (ex: BACK-END)*
