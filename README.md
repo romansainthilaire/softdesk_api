@@ -10,7 +10,7 @@ L'API est destinée à être utilisée par une application de gestion de projets
 
 Les utilisateurs peuvent créer des projets et y ajouter des contributeurs. Chaque contributeur est alors en mesure d'associer au projet des problèmes comprenant un titre, une description, un statut, un indice de priorité, etc. Par ailleurs, les problèmes peuvent faire l'objet de commentaires.
 
-Notes :
+<ins>Notes :</ins>
 
 - L'utilisation de l'API nécessite la création d'un compte et l'authentification via JWT (JSON Web Token).
 
