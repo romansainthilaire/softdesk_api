@@ -14,7 +14,7 @@ Notes :
 
 - L'utilisation de l'API nécessite la création d'un compte et l'authentification via JWT (JSON Web Token).
 
-- Les problèmes et commentaires sont accessibles uniquement aux contributeurs du projet. L'auteur du projet fait necessairement partie des contributeurs.
+- Les problèmes et commentaires sont accessibles uniquement aux contributeurs du projet. L'auteur du projet fait nécessairement partie des contributeurs.
 
 - Seul l'auteur d'un projet, problème ou commentaire peut modifier ou supprimer ce dernier.
 
