@@ -83,3 +83,8 @@ Les utilisateurs peuvent créer des projets et y ajouter des contributeurs. Chaq
 → GET **projects/<project_id>/users/**
 - Headers :
     - Authorization : Bearer *token d'accès*
+
+### Ajout d'un contributeur à un projet
+→ POST **projects/<project_id>/users/<user_id>/**
+- Headers :
+    - Authorization : Bearer *token d'accès*
