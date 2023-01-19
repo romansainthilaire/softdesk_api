@@ -88,3 +88,8 @@ Les utilisateurs peuvent créer des projets et y ajouter des contributeurs. Chaq
 → POST **projects/<project_id>/users/<user_id>/**
 - Headers :
     - Authorization : Bearer *token d'accès*
+
+### Suppression d'un contributeur d'un projet
+→ DELETE **projects/<project_id>/users/<user_id>/**
+- Headers :
+    - Authorization : Bearer *token d'accès*
