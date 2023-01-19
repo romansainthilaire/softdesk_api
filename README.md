@@ -29,7 +29,7 @@ Les utilisateurs peuvent créer des projets et y ajouter des contributeurs. Chaq
 
 ### Inscription
 → POST **signup/**
-- Données à renseigner (Body) :
+- Body :
     - first_name : *prénom*
     - last_name : *nom*
     - email : *adresse e-mail*
@@ -37,16 +37,16 @@ Les utilisateurs peuvent créer des projets et y ajouter des contributeurs. Chaq
 
 ### Récupération d'un couple token d'accès / token de rafraichissement
 → POST **token/**
-- Données à renseigner (Body) :
+- Body :
     - email : *adresse e-mail*
     - password : *mot de passe*
 
 ### Récupération d'un token d'accès à partir d'un token de rafraichissement
 → POST **token/refresh/**
-- Données à renseigner (Body) :
+- Body :
     - refresh : *token de rafraichissement*
 
 ### Récupération des projets
 → GET **projects/**
-- Données à renseigner (Headers) :
+- Headers :
     - Authorization : Bearer *token d'accès*
