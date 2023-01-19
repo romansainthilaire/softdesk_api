@@ -27,6 +27,8 @@ Les utilisateurs peuvent créer des projets et y ajouter des contributeurs. Chaq
 
 ## Points de terminaison
 
+La documentation **Postman** de l'API est disponible à l'adresse suivante : https://documenter.getpostman.com/view/22554176/2s8ZDX3hZh
+
 ### Inscription
 → POST **signup/**
 - Body :
