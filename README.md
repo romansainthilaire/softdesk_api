@@ -109,3 +109,8 @@ Les utilisateurs peuvent créer des projets et y ajouter des contributeurs. Chaq
     - tag : *balise (ex : BUG)*
     - priority : *priorité (ex : ÉLEVÉE)*
     - status : *statut (ex : EN COURS)*
+
+### Récupération d'un problème
+→ GET **projects/<project_id>/issues/<issue_id>/**
+- Headers :
+    - Authorization : Bearer *token d'accès*
