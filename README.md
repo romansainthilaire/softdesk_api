@@ -64,3 +64,12 @@ Les utilisateurs peuvent créer des projets et y ajouter des contributeurs. Chaq
 → GET **projects/<project_id>/**
 - Headers :
     - Authorization : Bearer *token d'accès*
+
+### Modification d'un projet
+→ PUT **projects/<project_id>/**
+- Headers :
+    - Authorization : Bearer *token d'accès*
+- Body :
+    - title : *titre du projet*
+    - description : *description du projet*
+    - type : *nature du projet (ex: BACK-END)*
