@@ -22,6 +22,7 @@ Les utilisateurs peuvent créer des projets et y ajouter des contributeurs. Chaq
 - créer un environnement virtuel : python -m venv [nom]
 - activer l'environnement virtuel : [nom]\Scripts\activate
 - installer les packages : pip install -r requirements.txt
+- appliquer les migrations initiales : python manage.py migrate
 - lancer le serveur de développement : python manage.py runserver
 - se rendre à l'adresse : http://127.0.0.1:8000/
 
